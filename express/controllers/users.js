@@ -11,14 +11,17 @@ const getAll = () => {
 
 const getOne = name => {
   // find one user by name
+  return UsersModel.find(name);
 };
 
 const createDefault = () => {
+  // insert default user into db
   return UsersModel.create(defaultUser);
 };
 
 const createUser = user => {
   // insert user from POST request into db
+  return UsersModel.create(user);
 };
 
 const updateUser = (name, updates) => {
