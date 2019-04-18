@@ -6,9 +6,19 @@ router.get("/", (request, response) => {
   UsersController.getAll().then(results => response.json(results));
 });
 
-router.get("/:name", (request, response) => {
-  UsersController.getOne(name.param)
+router.get("/page/:name", (request, response) => {
+  UsersController.getOne(request.params.name)
     .then(result => {
+      if (!result) throw new Error("No user found");
+      response.json(result);
+    })
+    .catch(err => response.status(404).send(err.message));
+});
+
+router.get("/page2/:id", (request, response) => {
+  UsersController.getUserById(request.params.id)
+    .then(result => {
+      console.log(result);
       if (!result) throw new Error("No user found");
       response.json(result);
     })
@@ -26,13 +36,16 @@ router.post("/", (request, response) => {
 });
 
 router.put("/:name", (request, response) => {
-  UsersController.updateUser(name.param, request.body).then(() =>
+  console.log(request.params.name);
+  console.log(request.body);
+
+  UsersController.updateUser(request.params.name, request.body).then(() =>
     response.status(204).send()
   );
 });
 
 router.delete("/:name", (request, response) => {
-  UsersController.deleteUser(name.param).then(() =>
+  UsersController.deleteUser(request.params.name).then(() =>
     response.send("User deleted")
   );
 });

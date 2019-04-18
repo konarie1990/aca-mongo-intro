@@ -11,7 +11,15 @@ const getAll = () => {
 
 const getOne = name => {
   // find one user by name
-  return UsersModel.find(name);
+  // passing in an object literal - the key and value is the same
+  // console.log(name);
+
+  return UsersModel.findOne({ name });
+};
+
+// ** added get user by id for extra practice
+const getUserById = id => {
+  return UsersModel.findOne({ _id: id });
 };
 
 const createDefault = () => {
@@ -26,15 +34,18 @@ const createUser = user => {
 
 const updateUser = (name, updates) => {
   // use name as the query and updates for the updates
+  return UsersModel.findOneAndUpdate({ name }, updates);
 };
 
 const deleteUser = name => {
   // use name as the query
+  return UsersModel.findOneAndDelete({ name });
 };
 
 module.exports = {
   getAll,
   getOne,
+  getUserById,
   createDefault,
   createUser,
   updateUser,
